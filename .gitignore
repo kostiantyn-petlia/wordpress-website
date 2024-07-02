@@ -1,0 +1,63 @@
+# Gitignore
+#
+# http://git-scm.com/docs/gitignore
+# https://www.kernel.org/pub/software/scm/git/docs/gitignore.html
+
+# Ignore the env file
+.env
+
+# Ignore all files that start ~
+~*
+
+# Ignore temporary translations
+*.po~
+*.pot~
+
+# Ignore OS generated files
+ehthumbs.db
+Thumbs.db
+
+# Ignore IDE files
+.idea
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+
+# Ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# Ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Ignore everything in the "wp-content" directory, except specific folders
+wp-content/*
+!wp-content/languages/
+!wp-content/mu-plugins/
+!wp-content/plugins/
+!wp-content/themes/
+
+# Ignore specific plugins
+/wp-content/plugins/hello.php
+
+# Ignore specific themes
+/wp-content/themes/twenty*/
+
+# Ignore node/grunt/yarn dependency directories
+node_modules/
