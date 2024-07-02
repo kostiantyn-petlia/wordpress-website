@@ -48,6 +48,7 @@ Thumbs.db
 
 # Ignore everything in the "wp-content" directory, except specific folders
 wp-content/*
+!wp-content/index.php
 !wp-content/languages/
 !wp-content/mu-plugins/
 !wp-content/plugins/
