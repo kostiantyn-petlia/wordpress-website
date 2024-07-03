@@ -1,0 +1,3 @@
+# Local WordPress environment
+
+README is in progress...
