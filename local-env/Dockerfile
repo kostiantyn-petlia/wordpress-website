@@ -2,6 +2,8 @@
 #
 # https://hub.docker.com/_/wordpress
 #
+# [0] ARGs declared before FROM are only available for use in FROM instructions.
+#     If you need to use them after FROM, you should redeclare them.
 # [1] It is used in the .htaccess file. (Use 'apachectl -M' to get the list of modules.)
 # [2] We use git to install Xdebug below and Vim can help us to edit files inside a docker container.
 # [3] See https://xdebug.org/docs/install for datails
@@ -12,10 +14,12 @@
 #     the helper script docker-php-ext-enable (defined for image `php`)
 #     works here, and we can use it to enable xdebug.
 
-ARG WORDPRESS_VERSION=6.5.5-php8.2-apache
-ARG XDEBUG_BRANCH=xdebug_3_3
+# ARG uses .env variables [0]
+ARG WORDPRESS_VERSION=latest
 
 FROM  wordpress:${WORDPRESS_VERSION}
+
+ARG XDEBUG_BRANCH=xdebug_3_3
 
 # Enable the mod_headers Apache module [1]
 RUN ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/

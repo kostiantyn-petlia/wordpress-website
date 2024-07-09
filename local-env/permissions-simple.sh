@@ -18,9 +18,9 @@ WP_OWNER="${WP_OWNER:-$USER}"       # Our Linux user
 WP_GROUP="${WP_GROUP:-www-data}"    # This is usually the web server/Apache group
 
 # Visible files and directories owner
-chown $WP_GROUP:$WP_OWNER -R "$WP_PATH/*"
+chown "${WP_GROUP}":"${WP_OWNER}" -R "${WP_PATH}"/*
 # Hidden files and directories owner, except the special directories . and ..
-chown $WP_GROUP:$WP_OWNER -R "$WP_PATH/.[^.]**"
+chown "${WP_GROUP}":"${WP_OWNER}" -R "${WP_PATH}"/.[^.]**
 
 # Change directory permissions to rwxrwxr-x
 find ../ -type d -exec chmod 775 {} \;

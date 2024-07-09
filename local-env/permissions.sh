@@ -6,6 +6,10 @@
 # https://developer.wordpress.org/advanced-administration/security/hardening/#file-permissions
 #
 # Usage: sudo bash permissions.sh
+#
+# Ignore the executable bit changes one time:
+# git -c core.fileMode=false <command>
+# git -c core.fileMode=false status
 
 # Source the .env file
 source .env
@@ -25,31 +29,31 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Set ownership of all files
-chown -R $WP_OWNER:$WP_OWNER $WP_PATH
+chown -R "${WP_OWNER}":"${WP_OWNER}" "${WP_PATH}"
 
 # Set base permissions
-find $WP_PATH -type d -exec chmod 755 {} \;
-find $WP_PATH -type f -exec chmod 644 {} \;
+find "${WP_PATH}" -type d -exec chmod 755 {} \;
+find "${WP_PATH}" -type f -exec chmod 644 {} \;
 
 # Make .htaccess writable by the web server if it exists
-if [ -f $WP_PATH/.htaccess ]; then
-    chmod 664 $WP_PATH/.htaccess
-    chgrp $WP_GROUP $WP_PATH/.htaccess
+if [ -f "${WP_PATH}/.htaccess" ]; then
+    chmod 664 "${WP_PATH}/.htaccess"
+    chgrp "${WP_GROUP}" "${WP_PATH}/.htaccess"
 fi
 
 # Set wp-content permissions
-chgrp -R $WP_GROUP $WP_PATH/wp-content
-chmod g+s $WP_PATH/wp-content
+chgrp -R "${WP_GROUP}" "${WP_PATH}/wp-content"
+chmod g+s "${WP_PATH}/wp-content"
 
 # Make directories writable by the web server
-DIRECTORIES=("languages" "mu-plugins" "plugins" "themes" "uploads")
+DIRECTORIES=("cache" "languages" "mu-plugins" "plugins" "themes" "uploads")
 for DIR in "${DIRECTORIES[@]}"; do
-  if [ -d "$WP_PATH/wp-content/$DIR" ]; then
-    chmod -R 775 "$WP_PATH/wp-content/$DIR"
-    chgrp -R $WP_GROUP "$WP_PATH/wp-content/$DIR"
-    echo "Processed $DIR directory"
+  if [ -d "${WP_PATH}/wp-content/${DIR}" ]; then
+    chmod -R 775 "${WP_PATH}/wp-content/${DIR}"
+    chgrp -R "${WP_GROUP}" "${WP_PATH}/wp-content/${DIR}"
+    echo "Processed ${DIR} directory"
   else
-    echo "Error: $DIR directory not found"
+    echo "Error: ${DIR} directory not found"
   fi
 done
 
