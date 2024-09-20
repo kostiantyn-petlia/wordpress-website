@@ -1,34 +1,36 @@
-# Gitignore
+# Gitignore for WordPress development
 #
 # http://git-scm.com/docs/gitignore
 # https://www.kernel.org/pub/software/scm/git/docs/gitignore.html
 
-# Ignore the env file
+# Ignore the env file.
 .env
 
-# Ignore all files that start ~
+# Ignore all files that start with ~.
 ~*
 
-# Ignore temporary translations
+# Ignore temporary translations.
 *.po~
 *.pot~
 
-# Ignore OS generated files
+# Ignore OS generated files.
 ehthumbs.db
 Thumbs.db
+.DS_Store
 
-# Ignore IDE files
+# Ignore IDE files.
 .idea
+.vscode
 *.sublime-project
 *.sublime-workspace
 *.komodoproject
 
-# Ignore log files and databases
+# Ignore log files and databases.
 *.log
 *.sql
 *.sqlite
 
-# Ignore compiled files
+# Ignore compiled files.
 *.com
 *.class
 *.dll
@@ -36,7 +38,7 @@ Thumbs.db
 *.o
 *.so
 
-# Ignore packaged files
+# Ignore packaged files.
 *.7z
 *.dmg
 *.gz
@@ -46,20 +48,29 @@ Thumbs.db
 *.tar
 *.zip
 
-# Ignore everything in the "wp-content" directory, except specific folders
-wp-content/*
-!wp-content/index.php
-!wp-content/languages/
-!wp-content/mu-plugins/
-!wp-content/plugins/
-!wp-content/themes/
-
-# Ignore specific plugins
-/wp-content/plugins/hello.php
-/wp-content/plugins/akismet
-
-# Ignore specific themes
-/wp-content/themes/twenty*/
-
-# Ignore node/grunt/yarn dependency directories
+# Ignore node/grunt/yarn dependency directories.
 node_modules/
+
+# Ignore everything in the 'wordpress' directory.
+/wordpress/*
+
+# Don't ignore the .htaccess file with server settings.
+!/wordpress/.htaccess
+
+# Don't ignore the 'wp-content' directory itself.
+!/wordpress/wp-content
+
+# Ignore everything in the 'wp-content' directory, except specific folders.
+/wordpress/wp-content/*
+!/wordpress/wp-content/index.php
+!/wordpress/wp-content/languages/
+!/wordpress/wp-content/mu-plugins/
+!/wordpress/wp-content/plugins/
+!/wordpress/wp-content/themes/
+
+# Ignore specific plugins.
+/wordpress/wp-content/plugins/hello.php
+/wordpress/wp-content/plugins/akismet
+
+# Ignore specific themes.
+/wordpress/wp-content/themes/twenty*/

@@ -3,13 +3,6 @@
 <FilesMatch "\.(php|phtml|html|htm|rtf|rtx|txt|xsd|xsl|xml)$">
 <IfModule mod_headers.c>
 Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-# Comment out or adjust values of Content Security Policy if issues arise with third-party services.
-Header set Content-Security-Policy "\
-    default-src 'self'; \
-    script-src 'self' 'unsafe-inline' 'unsafe-eval'; \
-    style-src 'self' 'unsafe-inline'; \
-    img-src 'self' data:; \
-    font-src 'self' data:;"
 Header set X-Content-Type-Options nosniff
 Header set X-XSS-Protection "1; mode=block"
 Header set X-Frame-Options SAMEORIGIN
@@ -38,5 +31,11 @@ Header set Permissions-Policy "browsing-topics=()"
 # The directives (lines) between "BEGIN WordPress" and "END WordPress" are
 # dynamically generated, and should only be modified via WordPress filters.
 # Any changes to the directives between these markers will be overwritten.
-
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
 # END WordPress
