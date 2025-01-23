@@ -22,7 +22,7 @@ Follow these four simple steps to get started:
 
 4. **Start the Docker Environment:**
 
-   Navigate to the `local-env` directory and run the following command in your terminal:
+   Navigate to the `docker` directory and run the following command in your terminal:
 
 ```bash
 docker compose up -d         # Start.
