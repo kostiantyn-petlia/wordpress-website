@@ -7,6 +7,18 @@
 #   - wordpress: https://hub.docker.com/_/wordpress/
 #   - phpmyadmin: https://hub.docker.com/_/phpmyadmin
 #
+# Pay attention!
+# The 'wordpress' folder in the project root is ignored by Git and we need it for advanced debugging only.
+# Downside of that is "frozen" WP version (the folder is copied once from the docker image if it is not exist).
+# We need to remove the 'wordpress' folder and rerun docker to get a new WP version.
+#
+# Rebuild containers (Use this when you change image versions of WordPress or other services.):
+# docker compose up -d --build
+#
+# Terminal in the wordpress container:
+# docker compose exec wordpress bash
+# ls -la
+#
 # WP-CLI:
 # docker compose run --rm wp-cli wp config list
 # https://developer.wordpress.org/cli/commands/
@@ -78,9 +90,11 @@ services:
         define( 'WP_DEBUG_LOG', 'wp-content/debug.log' );
         define( 'WP_ENVIRONMENT_TYPE', 'local' );
     volumes:
-      - ../conf/php/conf.d/php-tweaks.ini:/usr/local/etc/php/conf.d/php-tweaks.ini
-      - ../conf/apache2/conf-available/security.conf:/etc/apache2/conf-available/security.conf
       - ../wordpress:/var/www/html
+      - ../wp-content:/var/www/html/wp-content
+      - ../config/php/conf.d/php-tweaks.ini:/usr/local/etc/php/conf.d/php-tweaks.ini
+      - ../config/apache2/conf-available/security.conf:/etc/apache2/conf-available/security.conf
+      - ../config/wordpress/.htaccess:/var/www/html/.htaccess
     networks:
       - wordpress_default_network
 
@@ -120,8 +134,11 @@ services:
       WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-1}
       WP_CLI_CACHE_DIR: /var/www/html/.wp-cli/cache/
     volumes:
-      - ../conf/php/conf.d/php-tweaks.ini:/usr/local/etc/php/conf.d/php-tweaks.ini
       - ../wordpress:/var/www/html
+      - ../wp-content:/var/www/html/wp-content
+      - ../config/php/conf.d/php-tweaks.ini:/usr/local/etc/php/conf.d/php-tweaks.ini
+      - ../config/apache2/conf-available/security.conf:/etc/apache2/conf-available/security.conf
+      - ../config/wordpress/.htaccess:/var/www/html/.htaccess
     working_dir: /var/www/html
     networks:
       - wordpress_default_network
