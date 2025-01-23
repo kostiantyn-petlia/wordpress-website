@@ -2,12 +2,12 @@
 
 # WordPress file permissions.
 #
-# TODO Check it twice for security
+# TODO Check it twice in general and for security
 # It's a safe version.
 # https://developer.wordpress.org/advanced-administration/security/hardening/#file-permissions
 #
 # Usage:
-# 1) Once set WP_PATH, WP_OWNER and WP_GROUP in the .env file.
+# 1) Once set SH_ROOT_PATH, SH_WP_OWNER and SH_WP_GROUP in the .env file.
 # 2) Terminal: sudo bash permissions-prod.sh
 #
 # Ignore the executable bit changes one time:
@@ -21,9 +21,10 @@ source .env
 set -x
 
 # Set these variables in the .env file.
-WP_PATH="${WP_PATH:-..}"          # /path/to/wordpress
-WP_OWNER="${WP_OWNER:-$USER}"     # Our Linux user
-WP_GROUP="${WP_GROUP:-www-data}"  # This is usually the web server/Apache group
+SH_ROOT_PATH="${SH_ROOT_PATH:-..}"                          # /path/to/project-root
+SH_WP_CONTENT_PATH="${SH_WP_CONTENT_PATH:-../wp-content}"   # /path/to/wp-content
+SH_WP_OWNER="${SH_WP_OWNER:-$USER}"                         # Our Linux user.
+SH_WP_GROUP="${SH_WP_GROUP:-www-data}"                      # This is usually the web server/Apache group.
 
 # Ensure the script is run as root.
 if [ "$(id -u)" != "0" ]; then
@@ -32,28 +33,28 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Set ownership of all files.
-chown -R "${WP_OWNER}":"${WP_OWNER}" "${WP_PATH}"
+chown -R "${SH_WP_OWNER}":"${SH_WP_OWNER}" "${SH_ROOT_PATH}"
 
 # Set base permissions.
-find "${WP_PATH}" -type d -exec chmod 755 {} \;
-find "${WP_PATH}" -type f -exec chmod 644 {} \;
+find "${SH_ROOT_PATH}" -type d -exec chmod 755 {} \;
+find "${SH_ROOT_PATH}" -type f -exec chmod 644 {} \;
 
 # Make .htaccess writable by the web server if it exists.
-if [ -f "${WP_PATH}/.htaccess" ]; then
-    chmod 664 "${WP_PATH}/.htaccess"
-    chgrp "${WP_GROUP}" "${WP_PATH}/.htaccess"
+if [ -f "${SH_ROOT_PATH}/config/wordpress/.htaccess" ]; then
+    chmod 664 "${SH_ROOT_PATH}/config/wordpress/.htaccess"
+    chgrp "${SH_WP_GROUP}" "${SH_ROOT_PATH}/config/wordpress/.htaccess"
 fi
 
 # Set wp-content permissions.
-chgrp -R "${WP_GROUP}" "${WP_PATH}/wp-content"
-chmod g+s "${WP_PATH}/wp-content"
+chgrp -R "${SH_WP_GROUP}" "${SH_WP_CONTENT_PATH}"
+chmod g+s "${SH_WP_CONTENT_PATH}"
 
 # Make directories writable by the web server (it's for updates).
 DIRECTORIES=("cache" "languages" "mu-plugins" "plugins" "themes" "uploads")
 for DIR in "${DIRECTORIES[@]}"; do
-  if [ -d "${WP_PATH}/${DIR}" ]; then
-    chmod -R 775 "${WP_PATH}/${DIR}"
-    chgrp -R "${WP_GROUP}" "${WP_PATH}/${DIR}"
+  if [ -d "${SH_WP_CONTENT_PATH}/${DIR}" ]; then
+    chmod -R 775 "${SH_WP_CONTENT_PATH}/${DIR}"
+    chgrp -R "${SH_WP_GROUP}" "${SH_WP_CONTENT_PATH}/${DIR}"
     echo "Processed ${DIR} directory"
   else
     echo "Error: ${DIR} directory not found"
