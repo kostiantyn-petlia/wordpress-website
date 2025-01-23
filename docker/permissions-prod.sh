@@ -21,10 +21,10 @@ source .env
 set -x
 
 # Set these variables in the .env file.
-SH_ROOT_PATH="${SH_ROOT_PATH:-..}"                          # /path/to/project-root
-SH_WP_CONTENT_PATH="${SH_WP_CONTENT_PATH:-../wp-content}"   # /path/to/wp-content
-SH_WP_OWNER="${SH_WP_OWNER:-$USER}"                         # Our Linux user.
-SH_WP_GROUP="${SH_WP_GROUP:-www-data}"                      # This is usually the web server/Apache group.
+SH_ROOT_PATH="${SH_ROOT_PATH:-..}"                              # /path/to/project-root
+SH_WP_CONTENT_PATH="${SH_WP_CONTENT_PATH:-../apps/wp-content}"  # /path/to/wp-content
+SH_WP_OWNER="${SH_WP_OWNER:-$USER}"                             # Our Linux user.
+SH_WP_GROUP="${SH_WP_GROUP:-www-data}"                          # This is usually the web server/Apache group.
 
 # Ensure the script is run as root.
 if [ "$(id -u)" != "0" ]; then

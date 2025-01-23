@@ -52,19 +52,19 @@ Thumbs.db
 node_modules/
 
 # Ignore the 'wordpress' directory.
-/wordpress/
+/apps/wordpress/
 
 # Ignore everything in the 'wp-content' directory, except specific folders.
-/wp-content/*
-!/wp-content/index.php
-!/wp-content/languages/
-!/wp-content/mu-plugins/
-!/wp-content/plugins/
-!/wp-content/themes/
+/apps/wp-content/*
+!/apps/wp-content/index.php
+!/apps/wp-content/languages/
+!/apps/wp-content/mu-plugins/
+!/apps/wp-content/plugins/
+!/apps/wp-content/themes/
 
 # Ignore specific plugins.
-/wp-content/plugins/hello.php
-/wp-content/plugins/akismet
+/apps/wp-content/plugins/hello.php
+/apps/wp-content/plugins/akismet
 
 # Ignore specific themes.
-/wp-content/themes/twenty*/
+/apps/wp-content/themes/twenty*/
